@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>jQuery Easy Number Animate</title>
+
+  <style>
+    .control_group {
+      align-items: center;
+      box-sizing: border-box;
+      border: 1px solid #AAAAAA;
+      display: flex;
+      flex-direction: column;
+      height: 80px;
+      justify-content: space-between;
+      margin: 50px auto;
+      padding: 10px;
+      width: 370px;
+    }
+
+    input {
+      font-size: 1em;
+      margin-right: 10px;
+    }
+
+    button {
+      font-size: 1em;
+        width: 10em;
+    }
+
+    .number {
+      font: bold 10vh monospace;
+      padding: 30px;
+      text-align: right;
+    }
+
+    .number.end_value {
+      color: #00BD8A;
+    }
+
+    .number.start_value {
+      color: #FF0000;
+    }
+  </style>
+</head>
+<body>
+  <div class='control_group'>
+    <div class='input_group'>
+      <input class='start_value' type='number' placeholder='Enter a start value' value='0' step='100'/>
+      <button class='up'>Animate Up</button>
+    </div>
+    <div class='button_group'>
+      <input class='end_value' type='number' placeholder='Enter an end value' value='1000000' step='100'/>
+      <button class='down'>Animate Down</button>
+    </div>
+  </div>
+
+  <h1 class='number start_value'>0</h1>
+  <script src='https://code.jquery.com/jquery-3.3.1.slim.min.js'></script>
+  <script src='dist/jquery.easy_number_animate.js'></script>
+  <script>
+    $(function()
+    {
+      var $number       = $('.number')
+          ,$start_input = $('.start_value')
+          ,$end_input   = $('.end_value')
+          ,$button_up   = $('.up')
+          ,$button_down = $('.down')
+          ;
+
+      function get_start_value()
+      {
+        return parseFloat($start_input.val());
+      }
+
+      function get_end_value()
+      {
+        return parseFloat($end_input.val());
+      }
+
+      function remove_classes()
+      {
+        $number.removeClass('start_value end_value');
+      }
+
+      function add_end_class()
+      {
+        remove_classes();
+        $number.addClass('end_value');
+      }
+
+      function add_start_class()
+      {
+        remove_classes();
+        $number.addClass('start_value');
+      }
+
+      function up()
+      {
+        var options = {
+          start_value: get_start_value()
+          ,end_value: get_end_value()
+          ,duration: 5000
+          ,before: remove_classes
+          ,after: add_end_class
+        };
+
+        $number.easy_number_animate(options);
+      }
+
+      function down()
+      {
+        var options = {
+          start_value: get_end_value()
+          ,end_value: get_start_value()
+          ,duration: 3000
+          ,before: remove_classes
+          ,after: add_start_class
+        };
+
+        $number.easy_number_animate(options);
+      }
+
+      $button_up.click(up);
+      $button_down.click(down);
+    });
+  </script>
+</body>
+</html>
+
